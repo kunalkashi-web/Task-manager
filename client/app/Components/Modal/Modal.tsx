@@ -16,12 +16,11 @@ function Modal() {
   } = useTasks();
   const ref = React.useRef(null);
 
-  // Use the hook to detect clicks outside the modal
   useDetectOutside({
     ref,
     callback: () => {
       if (isEditing) {
-        closeModal(); // Close modal if it is in add/edit mode
+        closeModal();
       }
     },
   });
@@ -44,29 +43,34 @@ function Modal() {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center px-4 sm:px-6">
       <form
-        action=""
-        className="py-5 px-6 max-w-[520px] w-full flex flex-col gap-3 bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-md"
-        onSubmit={handleSubmit}
         ref={ref}
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white rounded-xl shadow-xl p-5 sm:p-6 md:p-8 flex flex-col gap-4"
       >
+        <h2 className="text-xl font-semibold text-center mb-2">
+          {modalMode === "edit" ? "Edit Task" : "New Task"}
+        </h2>
+
         <div className="flex flex-col gap-1">
           <label htmlFor="title">Title</label>
           <input
-            className="bg-[#F9F9F9] p-2 rounded-md border"
+            className="bg-gray-100 p-2 rounded-md border"
             type="text"
             id="title"
-            placeholder="Task Title"
             name="title"
+            placeholder="Task Title"
             value={task.title}
             onChange={(e) => handleInput("title")(e)}
           />
         </div>
+
         <div className="flex flex-col gap-1">
           <label htmlFor="description">Description</label>
           <textarea
-            className="bg-[#F9F9F9] p-2 rounded-md border resize-none"
+            className="bg-gray-100 p-2 rounded-md border resize-none"
+            id="description"
             name="description"
             placeholder="Task Description"
             rows={4}
@@ -74,10 +78,12 @@ function Modal() {
             onChange={(e) => handleInput("description")(e)}
           />
         </div>
+
         <div className="flex flex-col gap-1">
-          <label htmlFor="priority">Select Priority</label>
+          <label htmlFor="priority">Priority</label>
           <select
-            className="bg-[#F9F9F9] p-2 rounded-md border cursor-pointer"
+            className="bg-gray-100 p-2 rounded-md border cursor-pointer"
+            id="priority"
             name="priority"
             value={task.priority}
             onChange={(e) => handleInput("priority")(e)}
@@ -87,39 +93,38 @@ function Modal() {
             <option value="high">High</option>
           </select>
         </div>
+
         <div className="flex flex-col gap-1">
           <label htmlFor="dueDate">Due Date</label>
           <input
-            className="bg-[#F9F9F9] p-2 rounded-md border"
+            className="bg-gray-100 p-2 rounded-md border"
             type="date"
+            id="dueDate"
             name="dueDate"
             value={task.dueDate}
             onChange={(e) => handleInput("dueDate")(e)}
           />
         </div>
+
         <div className="flex flex-col gap-1">
-          <label htmlFor="completed">Task Completed</label>
-          <div className="flex items-center justify-between bg-[#F9F9F9] p-2 rounded-md border">
-            <label htmlFor="completed">Completed</label>
-            <div>
-              <select
-                className="bg-[#F9F9F9] p-2 rounded-md border cursor-pointer"
-                name="completed"
-                value={task.completed ? "true" : "false"}
-                onChange={(e) => handleInput("completed")(e)}
-              >
-                <option value="false">No</option>
-                <option value="true">Yes</option>
-              </select>
-            </div>
-          </div>
+          <label htmlFor="completed">Completed</label>
+          <select
+            className="bg-gray-100 p-2 rounded-md border cursor-pointer"
+            id="completed"
+            name="completed"
+            value={task.completed ? "true" : "false"}
+            onChange={(e) => handleInput("completed")(e)}
+          >
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
         </div>
 
-        <div className="mt-8">
+        <div className="pt-4">
           <button
             type="submit"
-            className={`text-white py-2 rounded-md w-full hover:bg-blue-500 transition duration-200 ease-in-out ${
-              modalMode === "edit" ? "bg-blue-400" : "bg-green-400"
+            className={`w-full py-2 rounded-md text-white transition duration-200 ${
+              modalMode === "edit" ? "bg-blue-500 hover:bg-blue-600" : "bg-green-500 hover:bg-green-600"
             }`}
           >
             {modalMode === "edit" ? "Update Task" : "Create Task"}

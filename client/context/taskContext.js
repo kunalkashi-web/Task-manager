@@ -35,6 +35,10 @@ export const TasksProvider = ({ children }) => {
   const openProfileModal = () => {
     setProfileModal(true);
   };
+  const deleteAllTasks = () => {
+    setTasks([]); 
+  };
+  
 
   const closeModal = () => {
     setIsEditing(false);
@@ -148,6 +152,7 @@ export const TasksProvider = ({ children }) => {
         createTask,
         updateTask,
         deleteTask,
+        deleteAllTasks,
         priority,
         setPriority,
         handleInput,

@@ -24,49 +24,56 @@ function TaskItem({ task }: TaskItemProps) {
     }
   };
 
-  const { getTask, openModalForEdit, deleteTask, modalMode } = useTasks();
+  const { getTask, openModalForEdit, deleteTask } = useTasks();
 
   return (
     <motion.div
-      className="h-[16rem] px-4 py-3 flex flex-col gap-4 shadow-sm bg-[#f9f9f9] rounded-lg border-2 border-white"
+      className="min-h-[12rem] sm:min-h-[14rem] md:min-h-[16rem] p-4 flex flex-col gap-4 shadow-sm bg-[#f9f9f9] rounded-lg border-2 border-white transition-all"
       variants={item}
     >
-      <div>
-        <h4 className="font-bold text-2xl">{task.title}</h4>
-        <p>{task.description}</p>
+      {/* Task Title & Description */}
+      <div className="overflow-hidden">
+        <h4 className="font-bold text-lg sm:text-xl md:text-2xl break-words">
+          {task.title}
+        </h4>
+        <p className="text-sm sm:text-base break-words">{task.description}</p>
       </div>
-      <div className="mt-auto flex justify-between items-center">
-        <p className="text-sm text-gray-400">{formatTime(task.createdAt)}</p>
-        <p className={`text-sm font-bold ${getPriorityColor(task.priority)}`}>
+
+      {/* Footer: Date / Priority / Actions */}
+      <div className="mt-auto flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-4">
+        <p className="text-xs sm:text-sm text-gray-400">
+          {formatTime(task.createdAt)}
+        </p>
+        <p
+          className={`text-sm font-semibold ${getPriorityColor(task.priority)}`}
+        >
           {task.priority}
         </p>
-        <div>
-          <div className="flex items-center gap-3 text-gray-400 text-[1.2rem]">
-            <button
-              className={`${
-                task.completed ? "text-yellow-400" : "text-gray-400"
-              }`}
-            >
-              {star}
-            </button>
-            <button
-              className="text-[#00A1F1]"
-              onClick={() => {
-                getTask(task._id);
-                openModalForEdit(task);
-              }}
-            >
-              {edit}
-            </button>
-            <button
-              className="text-[#F65314]"
-              onClick={() => {
-                deleteTask(task._id);
-              }}
-            >
-              {trash}
-            </button>
-          </div>
+        <div className="flex items-center gap-3 text-gray-400 text-[1.2rem]">
+          <button
+            className={`${
+              task.completed ? "text-yellow-400" : "text-gray-400"
+            }`}
+          >
+            {star}
+          </button>
+          <button
+            className="text-[#00A1F1]"
+            onClick={() => {
+              getTask(task._id);
+              openModalForEdit(task);
+            }}
+          >
+            {edit}
+          </button>
+          <button
+            className="text-[#F65314]"
+            onClick={() => {
+              deleteTask(task._id);
+            }}
+          >
+            {trash}
+          </button>
         </div>
       </div>
     </motion.div>

@@ -4,14 +4,21 @@ import IconDeleteAll from "@/public/icons/IconDeleteAll";
 import IconFileCheck from "@/public/icons/IconFileCheck";
 import IconGrid from "@/public/icons/IconGrid";
 import IconStopwatch from "@/public/icons/IconStopwatch";
-import { link } from "fs";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useTasks } from "@/context/taskContext";
 
 function MiniSidebar() {
   const pathname = usePathname();
+  const { deleteAllTasks } = useTasks();
+
+  const handleDeleteAll = () => {
+    const confirmed = confirm("Are you sure you want to delete ALL tasks?");
+    if (confirmed) {
+      deleteAllTasks();
+    }
+  };
 
   const getStrokeColor = (link: string) => {
     return pathname === link ? "#3aafae" : "#71717a";
@@ -41,9 +48,7 @@ function MiniSidebar() {
   ];
   return (
     <div className="basis-[5rem] flex flex-col bg-[#f9f9f9]">
-      <div className="flex items-center justify-center h-[5rem]"></div>
-
-      <div className="mt-8 flex-1 flex flex-col items-center justify-between">
+      <div className="mt-8 flex flex-col items-center justify-between ">
         <ul className="flex flex-col gap-10">
           {navItems.map((item, index) => (
             <li key={index} className="relative group">
@@ -57,8 +62,11 @@ function MiniSidebar() {
           ))}
         </ul>
 
-        <div className="mb-[1.5rem]">
-          <button className="w-12 h-12 flex justify-center items-center border-2 border-[#EB4E31]  p-2 rounded-full">
+        <div className="mb-[1.5rem] mt-14">
+          <button
+            onClick={handleDeleteAll} // 👈 hook it up
+            className="w-12 h-12 flex justify-center items-center border-2 border-[#EB4E31] p-2 rounded-full"
+          >
             <IconDeleteAll strokeColor="#EB4E31" />
           </button>
         </div>
