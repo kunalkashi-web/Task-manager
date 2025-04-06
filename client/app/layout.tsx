@@ -39,11 +39,20 @@ export default function RootLayout({
       <body className={inter.className}>
         <UserProvider>
           <Toaster position="top-center" />
+          <Header />
 
-          <div className="h-full flex overflow-hidden">
-            <MiniSidebar />
+          <div className="h-full flex flex-col sm:flex-row overflow-hidden">
+          
+            <div className="sm:hidden">
+           
+            </div>
+
+            
+            <div className="hidden sm:block">
+              <MiniSidebar />
+            </div>
+
             <div className="flex-1 flex flex-col">
-              <Header />
               <MainContentLayout>
                 <MainLayout>{children}</MainLayout>
                 <SidebarProvider />
