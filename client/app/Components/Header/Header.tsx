@@ -2,7 +2,7 @@
 
 import { useTasks } from "@/context/taskContext";
 import { useUserContext } from "@/context/userContext";
-import { github, moon, profile } from "@/utils/Icons";
+import { github } from "@/utils/Icons";
 import MiniSidebar from "../MiniSidebar/MiniSidebar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,12 +19,14 @@ function Header() {
   return (
     <header className="relative px-4 md:px-6 py-4 w-full bg-[#f9f9f9]">
       <div className="md:hidden flex justify-between gap-2 mb-4">
-        <button
-          className="mt-auto mb-6  py-2 px-8 bg-[#EB4E31] text-white rounded-[50px] hover:bg-[#3aafae] transition duration-200 ease-in-out"
-          onClick={logoutUser}
-        >
-          Sign Out
-        </button>
+        {userId && (
+          <button
+            className="mt-auto mb-6 py-2 px-8 bg-[#EB4E31] text-white rounded-[50px] hover:bg-[#3aafae] transition duration-200 ease-in-out"
+            onClick={logoutUser}
+          >
+            Sign Out
+          </button>
+        )}
         <div className="flex justify-between gap-2 mb-4">
           <Link
             href="https://github.com/kunalkashi-web/Task-manager"
